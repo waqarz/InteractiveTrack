@@ -2,8 +2,6 @@
   
 <html lang="en"> 
 
-
-
 <head> 
    <meta charset="utf-8"> 
    <title>Custom HTML5 Video Player</title> 
@@ -30,10 +28,9 @@
 </body> 
 
 <script type = "text/javascript">
-
 	// Get the <video> element with id="myVideo"
 	var vid = document.getElementById("video");
-	var images = [], x = -1;
+	var images = [], x = -1, x_curr = 9;
 	var links  = [];
 	var currentPlaybackTime;
 	images[0] = "actor1.jpg";
@@ -44,8 +41,7 @@
 	links[2]  = "http://www.imdb.com/name/nm0513190/?ref_=ttfc_fc_cl_t1";
 
 
-	function displayNextImage() {
-	  x = (x === images.length - 1) ? 0 : x + 1;
+	function displayNextImage() {		
 	  document.getElementById("img").src = images[x];
 	  document.getElementById("links").href = links[x];
 	}
@@ -55,24 +51,37 @@
 	  document.getElementById("img").src = images[x];
 	}
 
-	function startTimer() {	  
+	function startTimer() {	 // Use this in case we want to set out 
+	// periodic fine-grained monitoring the playback time. 
 	  console.log("Hey-1");
-	  setInterval(displayNextImage, 3000);
-	  setInterval(myFunction, 20);
+	  //setInterval(displayNextImage, 3000);
+	  //setInterval(myFunction, 20);
 	}
 
 	function myFunction() {
-	  document.getElementById("demo").innerHTML = Math.round(vid.currentTime * 100)/100;
-	  console.log("Hey-2");
+
+	  currentPlaybackTime = Math.round(vid.currentTime * 100)/100;
+	  // Get the current playback time.
+	  
+	  document.getElementById("demo").innerHTML = currentPlaybackTime;
+	  // Set the display accordingly.	
+		
+	  console.log("CurrentPlaybackTime =" + x);
+	  x = Math.floor(currentPlaybackTime / 3) % 3; 
+	  // convert the playback time to 0, 1 and 2 .
+
+	  if (x_curr != x) { // change the source images if only these is  a
+	  // change in the state when compared to the previous.
+		displayNextImage();
+		  x_curr = x;
+	  }	  
+
+		
 	} 
 
-    //vid.ontimeupdate = function() {myFunction()}; Use this if you want 
+    vid.ontimeupdate = function() {myFunction()}; //Use this if you want 
     // the internal media controller firing engine reponse to trigger,
     // when you want to call the function.
-
 </script>
-
-
-
 
 </html>
