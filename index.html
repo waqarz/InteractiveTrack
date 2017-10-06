@@ -2,65 +2,86 @@
   
 <html lang="en"> 
 
-
-
 <head> 
    <meta charset="utf-8"> 
    <title>Custom HTML5 Video Player</title> 
    <link rel="stylesheet" type="text/css" href="style.css">
 </head> 
 
-
-<script type = "text/javascript">
-  function displayNextImage() {
-	  x = (x === images.length - 1) ? 0 : x + 1;
-	  document.getElementById("img").src = images[x];
-	  document.getElementById("links").href = links[x];
-  }
-
-  function displayPreviousImage() {
-	  x = (x <= 0) ? images.length - 1 : x - 1;
-	  document.getElementById("img").src = images[x];
-  }
-
-  function startTimer() {
-	  setInterval(displayNextImage, 3000);
-  }
-
-  var images = [], x = -1;
-  var links  = [];
-  images[0] = "actor1.jpg";
-  images[1] = "actor2.jpg";
-  images[2] = "actor3.jpg";
-  links[0]  = "http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4";
-  links[1]  = "http://www.imdb.com/name/nm3316142/?ref_=ttfc_fc_cl_t2";
-  links[2]  = "http://www.imdb.com/name/nm0513190/?ref_=ttfc_fc_cl_t1";
-
-</script>
-
-
-
 <body onload = "startTimer()">  
 <div id="container">  
-    <h1> Demonstration for web interactive track. </h1>   
+    <h1 align="center"> Demonstration for web interactive track </h1>   
     <div id="video_container"> 
-        <video id="video" controls autoplay width="1280" height="720"> 
+        <video id="video" controls autoplay loop width="1280" height="720"> 
             <source src="http://10.4.247.130/InteractiveTrack/ToS.mp4" type="video/mp4">              
         </video> 
 		<div id="image_container" class="imgWrapper"> 
-		   <img id="img" src="actor1.jpg" width="200"/>
+		   <img id="img" src="actor1.jpg" width="250"/>
 		   <figcaption>
 		   <a id = "links" href="http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4"> Know more about me! </a>
+		   <p>Playback position: <span id="demo"></span></p>
 		   </figcaption>
 		</div>    
     </div>    
-    
 
 </div>       
 </body> 
 
+<script type = "text/javascript">
+	// Get the <video> element with id="myVideo"
+	var vid = document.getElementById("video");
+	var images = [], x = -1, x_curr = 9;
+	var links  = [];
+	var currentPlaybackTime;
+	images[0] = "actor1.jpg";
+	images[1] = "actor2.jpg";
+	images[2] = "actor3.jpg";
+	links[0]  = "http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4";
+	links[1]  = "http://www.imdb.com/name/nm3316142/?ref_=ttfc_fc_cl_t2";
+	links[2]  = "http://www.imdb.com/name/nm0513190/?ref_=ttfc_fc_cl_t1";
 
 
+	function displayNextImage() {		
+	  document.getElementById("img").src = images[x];
+	  document.getElementById("links").href = links[x];
+	}
 
+	function displayPreviousImage() {
+	  x = (x <= 0) ? images.length - 1 : x - 1;
+	  document.getElementById("img").src = images[x];
+	}
+
+	function startTimer() {	 // Use this in case we want to set out 
+	// periodic fine-grained monitoring the playback time. 
+	  console.log("Hey-1");
+	  //setInterval(displayNextImage, 3000);
+	  //setInterval(myFunction, 20);
+	}
+
+	function myFunction() {
+
+	  currentPlaybackTime = Math.round(vid.currentTime * 100)/100;
+	  // Get the current playback time.
+	  
+	  document.getElementById("demo").innerHTML = currentPlaybackTime;
+	  // Set the display accordingly.	
+		
+	  console.log("CurrentPlaybackTime =" + x);
+	  x = Math.floor(currentPlaybackTime / 3) % 3; 
+	  // convert the playback time to 0, 1 and 2 .
+
+	  if (x_curr != x) { // change the source images if only these is  a
+	  // change in the state when compared to the previous.
+		displayNextImage();
+		  x_curr = x;
+	  }	  
+
+		
+	} 
+
+    vid.ontimeupdate = function() {myFunction()}; //Use this if you want 
+    // the internal media controller firing engine reponse to trigger,
+    // when you want to call the function.
+</script>
 
 </html>
