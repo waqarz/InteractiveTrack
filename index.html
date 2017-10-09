@@ -12,16 +12,34 @@
 <div id="container">  
     <h1 align="center"> Demonstration for web interactive track </h1>   
     <div id="video_container"> 
-        <video id="video" controls autoplay loop width="1280" height="720"> 
+        <video id="video" controls autoplay width="1280" height="720"> 
             <source src="http://10.4.247.130/InteractiveTrack/ToS.mp4" type="video/mp4">              
         </video> 
-		<div id="image_container" class="imgWrapper"> 
-		   <img id="img" src="actor1.jpg" width="250"/>
+        
+		<div id="image_container_1" class="imgWrapper"> 
+		   <img id="img" src="actor1.jpg" width="100%" align="middle"/>
 		   <figcaption>
 		   <a id = "links" href="http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4"> Know more about me! </a>
-		   <p>Playback position: <span id="demo"></span></p>
+		   <p> Playback position: <font color="white"> <span style="font-color: white;" id="demo" > </span> </font> </p>
 		   </figcaption>
 		</div>    
+
+
+		<div id="text_end" class="imgWrapper"> 
+		   <p align="middle"> <font color="white"> <span id="video_end_text"  align="middle"> </span> </font> </p>
+		</div>
+
+		<div id="image_container_2" class="imgWrapper"> 
+		   <img id="img_2" width="400px"/>
+		   <p align="middle"> <a id = "links_2" > <span style="font-color: white;" id="link_1_end" > </span> </a></p>
+		</div>
+
+		<div id="image_container_3" class="imgWrapper"> 
+		   <img id="img_3" width="400px" />
+		   <p align="middle"> <a id = "links_3" > <span style="font-color: white;" id="link_2_end" > </span> </a></p>
+		</div>
+
+
     </div>    
 
 </div>       
@@ -33,6 +51,9 @@
 	var images = [], x = -1, x_curr = 9;
 	var links  = [];
 	var currentPlaybackTime;
+	var justBeforeVideo = 0;
+	
+	
 	images[0] = "actor1.jpg";
 	images[1] = "actor2.jpg";
 	images[2] = "actor3.jpg";
@@ -42,8 +63,19 @@
 
 
 	function displayNextImage() {		
-	  document.getElementById("img").src = images[x];
-	  document.getElementById("links").href = links[x];
+	  document.getElementById("img").src = images[x%3];
+	  document.getElementById("links").href = links[x%3];
+	}
+	
+	function beforeVideoEnds() {
+	  document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;
+	  document.getElementById("img_2").src = "sintel.jpg";
+	  document.getElementById("links_2").href = "https://www.youtube.com/watch?v=eRsGyueVLvQ";	  
+	  document.getElementById("link_1_end").innerHTML = "Watch here" ;
+
+	  document.getElementById("img_3").src = "bbb.png";
+	  document.getElementById("links_3").href = "https://www.youtube.com/watch?v=YE7VzlLtp-4";	  
+	  document.getElementById("link_2_end").innerHTML = "Watch here" ;
 	}
 
 	function displayPreviousImage() {
@@ -52,22 +84,26 @@
 	}
 
 	function startTimer() {	 // Use this in case we want to set out 
-	// periodic fine-grained monitoring the playback time. 
+	  // periodic fine-grained monitoring the playback time. 
 	  console.log("Hey-1");
 	  //setInterval(displayNextImage, 3000);
 	  //setInterval(myFunction, 20);
 	}
 
-	function myFunction() {
+	function myFunction() {	
+	  if ((vid.duration - vid.currentTime) < 5 && !justBeforeVideo){
+		  beforeVideoEnds();
+		  justBeforeVideo = 1;		  
+	  }	
 
 	  currentPlaybackTime = Math.round(vid.currentTime * 100)/100;
 	  // Get the current playback time.
 	  
-	  document.getElementById("demo").innerHTML = currentPlaybackTime;
+	  document.getElementById("demo").innerHTML = Math.round(vid.currentTime) ;
 	  // Set the display accordingly.	
 		
 	  console.log("CurrentPlaybackTime =" + x);
-	  x = Math.floor(currentPlaybackTime / 3) % 3; 
+	  x = Math.floor(currentPlaybackTime / 5) % 5; 
 	  // convert the playback time to 0, 1 and 2 .
 
 	  if (x_curr != x) { // change the source images if only these is  a
