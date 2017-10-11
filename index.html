@@ -93,12 +93,30 @@
 	  // Emulates periodic reading of interactive track of javascript function information.
 	  // We assume this information is somehow read from the interactive track.
 	  // And this information is stored in local storage for later processing by some other element.
+	    
+	  // We create a sample javascript file. Store into blob. Get a URL to this blob. Read the content from blob.
+	  // And append this content to the headelement in runtime.
+	    
 	    var head = document.getElementsByTagName('head')[0];
 	    var script = document.createElement('script');
-	    script.type = 'text/javascript';
-	    script.src = 'videoEnds.js';
+	    script.type = 'text/javascript';  	          
+	    var string =  'function beforeVideoEnds() {' +
+				    'console.log("Calling before video ends function");' +
+				    'document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;' + 
+				    'document.getElementById("img_2").src = "sintel.jpg";' + 
+				    'document.getElementById("links_2").href = "https://www.youtube.com/watch?v=eRsGyueVLvQ";' +  
+				    'document.getElementById("link_1_end").innerHTML = "Watch here" ;' +
+				    'document.getElementById("img_3").src = "bbb.png";' +
+				    'document.getElementById("links_3").href = "https://www.youtube.com/watch?v=YE7VzlLtp-4";' +
+				    'document.getElementById("link_2_end").innerHTML = "Watch here" ;}'; 
+	    var myBlob = new Blob([string], {type : "text/javascript"});
+	    var blobUrl = window.URL.createObjectURL(myBlob)
+	    console.log(blobUrl);
+	    console.log(myBlob.type);    
+	    script.src = blobUrl;
+	    //script.src = 'videoEnds.js'; // In case you want to directly point to the file.     
 	    head.appendChild(script);
-	}
+      }
 
 	function myFunction() {	
 	  // This function will be executed everytime there is a change in playback position.
@@ -107,6 +125,8 @@
 	  
 	  if ((vid.duration - vid.currentTime) < 5 && !justBeforeVideo){
 		  readFromInteractiveTrackAndStoreFunction();
+		  // Ideally add some delay between these two statements. 
+		  // Or call the next function only after the javascript has been loaded.
 		  beforeVideoEnds();
 		  justBeforeVideo = 1;		  
 	  }	
