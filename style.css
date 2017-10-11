@@ -33,7 +33,6 @@ margin: 0px;
     font-family: 'Cherry Swash', cursive;
     font-size: 1em;
     font-weight: 700;
-    background-color: rgba(250, 250, 250, 0.3);
 }
 #image_container_3 {
     position: absolute;
@@ -45,7 +44,6 @@ margin: 0px;
     font-size: 1em;
     font-weight: 700;
     color: white;
-    background-color: rgba(250, 250, 250, 0.3);
 }
 
 
