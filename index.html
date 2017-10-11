@@ -70,21 +70,6 @@
 	  console.log(link_for_image);
 	}
 	
-	function beforeVideoEnds() {
-	  // The javascript code that is to be execute few seconds before the end of the video.
-	  // Mainly sets two thumbnail images to the right of the video and also provides links to the same.
-	  // Later port this into a a blob and load it it with a time tirgger.
-	  document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;
-	  document.getElementById("img_2").src = "sintel.jpg";
-	  document.getElementById("links_2").href = "https://www.youtube.com/watch?v=eRsGyueVLvQ";	  
-	  document.getElementById("link_1_end").innerHTML = "Watch here" ;
-
-	  document.getElementById("img_3").src = "bbb.png";
-	  document.getElementById("links_3").href = "https://www.youtube.com/watch?v=YE7VzlLtp-4";	  
-	  document.getElementById("link_2_end").innerHTML = "Watch here" ;
-	}
-
-
 	function startTimer() {	 
 	   // Use this in case we want to set out periodic fine-grained monitoring the playback time. 
 	   // The problem with using internal media controller firing engine, onTimeUpdate() function is that
@@ -93,8 +78,8 @@
 	  console.log("Hey-1");
 	}
 
-	function readFromInteractiveTrackAndStore() {	 
-	  // Emulates periodic reading of interactive track. 
+	function readFromInteractiveTrackAndStoreURL() {	 
+	  // Emulates periodic reading of interactive track of URL information. 
 	  // We assume this information is somehow read from the interactive track.
 	  // And this information is stored in local storage for later processing by some other element.
 	  console.log("Reading from interactive track and storing the URL in local storage.");
@@ -103,13 +88,25 @@
 	  links[2]  = "http://www.imdb.com/name/nm0513190/?ref_=ttfc_fc_cl_t1";
 	  localStorage.setItem('link_for_image', links[x]);
 	}
-	
+
+	  function readFromInteractiveTrackAndStoreFunction() {	 
+	  // Emulates periodic reading of interactive track of javascript function information.
+	  // We assume this information is somehow read from the interactive track.
+	  // And this information is stored in local storage for later processing by some other element.
+	    var head = document.getElementsByTagName('head')[0];
+	    var script = document.createElement('script');
+	    script.type = 'text/javascript';
+	    script.src = 'videoEnds.js';
+	    head.appendChild(script);
+	}
+
 	function myFunction() {	
 	  // This function will be executed everytime there is a change in playback position.
 	  // Then we check with statemachine (a very simple one!) to check whether we have crossed the boundaries. 
 	  // If yes, call the apporiate functions and set the apporiate elements within the style sheet.  
 	  
 	  if ((vid.duration - vid.currentTime) < 5 && !justBeforeVideo){
+		  readFromInteractiveTrackAndStoreFunction();
 		  beforeVideoEnds();
 		  justBeforeVideo = 1;		  
 	  }	
@@ -130,7 +127,7 @@
 	  // at the same time trigger, two things happen simulatenously:
 	  // 1. Read value from the interactive track and store them in the local storage.
 	  // 2. Read value from the local storage and do things apporiately. Happens at display next image function.
-		readFromInteractiveTrackAndStore();
+		readFromInteractiveTrackAndStoreURL();
 		displayNextImage();
 		x_curr = x;
 	  }	  
