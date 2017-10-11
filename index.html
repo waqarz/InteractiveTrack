@@ -49,42 +49,30 @@
 <script type = "text/javascript">
 
 	var vid = document.getElementById("video"); // Get the <video> element with id="myVideo"
-	var images = [], x = -1, x_curr = 9; // Ideally you want these things to be local variable. 
+	// x is the state tracker, it change s
+	var leftthumbnail_period = 2; // The period of update for the images in the left thumbnail.
+	var x = -1, x_curr = 9; // Ideally you want these things to be local variable. 
 					    // We are setting them to be global implementation, since
 					    // We want a simpler implementation.
 	var currentPlaybackTime;    	    // Store the current playback time obtained from the video element.
 	var justBeforeVideo = 0;		    // The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
 	
-	images[0] = "actor1.jpg";           // Images to be displayed in the left thumbnail.
-	images[1] = "actor2.jpg";	    // Later port them to blobs and read it from public urls.
-	images[2] = "actor3.jpg";
-
-
+	var video_end_boundary = 0;	    // The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
+	var video_end_boundary_prev = 0;    // The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
+	
 	function displayNextImage() {
 	  // Display the image and also the url for the image.
 	  // The url for the image is read from the localstorage with the key "link_for_image"
-	  document.getElementById("img").src = images[x%3];
+
 	  var link_for_image = localStorage.getItem('link_for_image');
+	  var link_for_imagelinks = localStorage.getItem('link_for_imagelinks');
+
 	  console.log('Reading from local storage and setting the url for current image');
-	  document.getElementById("links").href = link_for_image;
-	  console.log(link_for_image);
+
+	  document.getElementById("img").src = link_for_image;
+	  document.getElementById("links").href = link_for_imagelinks;
 	}
 	
-	function beforeVideoEnds() {
-	  // The javascript code that is to be execute few seconds before the end of the video.
-	  // Mainly sets two thumbnail images to the right of the video and also provides links to the same.
-	  // Later port this into a a blob and load it it with a time tirgger.
-	  document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;
-	  document.getElementById("img_2").src = "sintel.jpg";
-	  document.getElementById("links_2").href = "https://www.youtube.com/watch?v=eRsGyueVLvQ";	  
-	  document.getElementById("link_1_end").innerHTML = "Watch here" ;
-
-	  document.getElementById("img_3").src = "bbb.png";
-	  document.getElementById("links_3").href = "https://www.youtube.com/watch?v=YE7VzlLtp-4";	  
-	  document.getElementById("link_2_end").innerHTML = "Watch here" ;
-	}
-
-
 	function startTimer() {	 
 	   // Use this in case we want to set out periodic fine-grained monitoring the playback time. 
 	   // The problem with using internal media controller firing engine, onTimeUpdate() function is that
@@ -93,26 +81,96 @@
 	  console.log("Hey-1");
 	}
 
-	function readFromInteractiveTrackAndStore() {	 
-	  // Emulates periodic reading of interactive track. 
+	function readFromInteractiveTrackAndStoreURL() {	 
+	  // Emulates periodic reading of interactive track of URL information. 
 	  // We assume this information is somehow read from the interactive track.
 	  // And this information is stored in local storage for later processing by some other element.
+	  var images = []
+	  var links  = [];
+	  
 	  console.log("Reading from interactive track and storing the URL in local storage.");
+	  
+	  images[0] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor1.jpg";           
+	  images[1] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor2.jpg";	    
+	  images[2] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor3.jpg";
+
 	  links[0]  = "http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4";
 	  links[1]  = "http://www.imdb.com/name/nm3316142/?ref_=ttfc_fc_cl_t2";
 	  links[2]  = "http://www.imdb.com/name/nm0513190/?ref_=ttfc_fc_cl_t1";
-	  localStorage.setItem('link_for_image', links[x]);
+
+	  localStorage.setItem('link_for_image', images[x]);
+	  localStorage.setItem('link_for_imagelinks', links[x]);
 	}
-	
+
+	function readFromInteractiveTrackAndStoreFunction() {	 
+	  // Emulates periodic reading of interactive track of javascript function information.
+	  // We assume this information is somehow read from the interactive track.
+	  // And this information is stored in local storage for later processing by some other element.
+	    
+	  // We create a sample javascript file. Store into blob. Get a URL to this blob. Read the content from blob.
+	  // And append this content to the headelement in runtime.
+	    
+	    var head = document.getElementsByTagName('head')[0];
+	    var script = document.createElement('script');
+	    script.type = 'text/javascript';  	          
+	    var string =  'function beforeVideoEnds() {' +
+				    'console.log("Calling before video ends function");' +
+				    'document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;' + 
+				    'document.getElementById("img_2").src = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/sintel.jpg";' + 
+				    'document.getElementById("links_2").href = "https://www.youtube.com/watch?v=eRsGyueVLvQ";' +  
+				    'document.getElementById("link_1_end").innerHTML = "Watch here" ;' +
+				    'document.getElementById("img_3").src = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/bbb.png";' +
+				    'document.getElementById("links_3").href = "https://www.youtube.com/watch?v=YE7VzlLtp-4";' +
+				    'document.getElementById("link_2_end").innerHTML = "Watch here" ;}'; 
+	    var myBlob = new Blob([string], {type : "text/javascript"});
+	    var blobUrl = window.URL.createObjectURL(myBlob)
+	    console.log(blobUrl);
+	    console.log(myBlob.type);    
+	    script.src = blobUrl;
+	    //script.src = 'videoEnds.js'; // In case you want to directly point to the file.     
+	    head.appendChild(script);
+      }
+
+      function removeVideoSuggestionThumbnails(){
+
+	document.getElementById("video_end_text").innerHTML = "" ;
+	document.getElementById("img_2").src = "";
+	document.getElementById("links_2").href = "";	  
+	document.getElementById("link_1_end").innerHTML = "" ;
+
+	document.getElementById("img_3").src = "";
+	document.getElementById("links_3").href = "";	  
+	document.getElementById("link_2_end").innerHTML = "" ;
+      }
+      
+      
 	function myFunction() {	
 	  // This function will be executed everytime there is a change in playback position.
 	  // Then we check with statemachine (a very simple one!) to check whether we have crossed the boundaries. 
 	  // If yes, call the apporiate functions and set the apporiate elements within the style sheet.  
 	  
-	  if ((vid.duration - vid.currentTime) < 5 && !justBeforeVideo){
-		  beforeVideoEnds();
-		  justBeforeVideo = 1;		  
+
+	  video_end_boundary = (vid.duration - vid.currentTime) < 5 ? 1 : 0;
+	  
+	  if (video_end_boundary != video_end_boundary_prev){ // state machine to keep track whether it crossed the boundary
+		  
+		  if (video_end_boundary){
+		    console.log("Crossed the video suggestion boundary. Show thumbnails.");
+		    readFromInteractiveTrackAndStoreFunction();
+		    // Ideally add some delay between these two statements. 
+		    // Or call the next function only after the javascript has been loaded.
+		    beforeVideoEnds();
+		  }
+		  else 
+		  {
+		    console.log("Crossed the video suggestion boundary. Remove thumbnails.");
+		    removeVideoSuggestionThumbnails();
+		  }
+		    
+		  video_end_boundary_prev = video_end_boundary; 
 	  }	
+	  
+	  
 
 	  currentPlaybackTime = Math.round(vid.currentTime * 100)/100;
 	  // Get the current playback time.
@@ -121,7 +179,7 @@
 	  // Set the display accordingly.	
 		
 	  console.log("CurrentPlaybackTime =" + x);
-	  x = Math.floor(currentPlaybackTime / 5) % 5; 
+	  x = Math.floor(currentPlaybackTime / leftthumbnail_period) % leftthumbnail_period; 
 	  // convert the playback time to 0, 1 and 2 .
 
 	  if (x_curr != x) { 
@@ -130,7 +188,7 @@
 	  // at the same time trigger, two things happen simulatenously:
 	  // 1. Read value from the interactive track and store them in the local storage.
 	  // 2. Read value from the local storage and do things apporiately. Happens at display next image function.
-		readFromInteractiveTrackAndStore();
+		readFromInteractiveTrackAndStoreURL();
 		displayNextImage();
 		x_curr = x;
 	  }	  
