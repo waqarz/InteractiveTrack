@@ -57,21 +57,23 @@
 
 	var vid = document.getElementById("video"); // Get the <video> element with id="myVideo"
 	
-	var video_end_boundary = 0;	    // The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
-	var video_end_boundary_prev = 0;    // The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
 	
 	var image_start 	  = [2.0,  6, 15.25, 22, 32];
 	var image_end	  = [4.5, 10, 18.50, 25, 34];
 
-	var new_image_available = 0;	   // Store in the local variable tells there is a state change : (new image available )
-	var prev_state_left_thumbnail = 0;
-	
-	
+	var new_image_available = 0;	    // Store in the local variable tells there is a state change : (new image available )
+	var new_function_available = 0;	    // Store in the local variable tells there is a state change : (new image available )
+
+	var prev_state_left_thumbnail = 0;  // The state variable that indicates that keeps previous state of the leftthumbnail
+	var video_end_boundary_prev = 0;    // The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
+	var blobUrl; 			   //  The URL for pointing to the javascript.
+	var function_added = 0;
 	// <----------- Main functions ----------------->
 	
 	function startUpFunction() {	 
 	  // Execture on startup.
 	  setInterval(checkForLeftThumbnail, 100); // Every 100ms check any new information for left thumbnail arrived or not.
+	  setInterval(checkForRightThumbnail, 100); // Every 100ms check any new information for right thumbnail arrived or not.
 	}
 
 	function checkForLeftThumbnail(){
@@ -80,6 +82,20 @@
 	    if (new_image_available){
 		setLeftActorInfoOverlay(); // Read the information and set it in the HTML page.
 		new_image_available = 0;   // Reintialize the variable.
+	    }
+	}
+
+	function checkForRightThumbnail(){
+	  // Periodically execute (100ms) and see if new left thumbnail is available. 
+	  // If yes, then read this from the local storage and set it in the HTML page.
+	    if (new_function_available && !function_added){
+		var script = document.createElement('script');
+		script.type = 'text/javascript';          
+		script.src = blobUrl;
+		var head = document.getElementsByTagName('head')[0];
+		head.appendChild(script);
+		function_added = 1;
+		console.log("Function added");
 	    }
 	}
 	
@@ -146,9 +162,6 @@
 	  // We create a sample javascript file. Store into blob. Get a URL to this blob. Read the content from blob.
 	  // And append this content to the headelement in runtime.
 	    
-	    var head = document.getElementsByTagName('head')[0];
-	    var script = document.createElement('script');
-	    script.type = 'text/javascript';  	          
 	    var string =  'function setRightVideoSuggestion() {' +
 				    'console.log("Calling before video ends function");' +
 				    'document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;' + 
@@ -159,13 +172,8 @@
 				    'document.getElementById("links_3").href = "https://www.youtube.com/watch?v=YE7VzlLtp-4";' +
 				    'document.getElementById("link_2_end").innerHTML = "Watch here" ;}'; 
 	    var myBlob = new Blob([string], {type : "text/javascript"});
-	    var blobUrl = window.URL.createObjectURL(myBlob)
-	    console.log(blobUrl);
-	    console.log(myBlob.type);    
-	    
-	    script.src = blobUrl;
-	    //script.src = 'videoEnds.js'; // In case you want to directly point to the file.     
-	    head.appendChild(script);
+	    blobUrl = window.URL.createObjectURL(myBlob);
+
       }
          
 	function emulateReceiveAndStoreFunction() {	
@@ -173,26 +181,34 @@
 	  // Then we check with statemachine (a very simple one!) to check whether we have crossed the boundaries. 
 	  // If yes, call the apporiate functions and set the apporiate elements within the style sheet.  
 	  
+	  if (!function_added){	// Call it only once.
+	    var video_end_boundary;	// The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
+	    video_end_boundary = (vid.duration - vid.currentTime) < 5 ? 1 : 0;
+	    
+	    if (video_end_boundary != video_end_boundary_prev){ // state machine to keep track whether it crossed the boundary		    
+		storeFunction();
+		new_function_available = 1;
+		console.log("Function stored");
+		video_end_boundary = !video_end_boundary;
+	    }
+	    video_end_boundary_prev = video_end_boundary;	    
+	  }
+	}
+	
+	function addRemoveRightThumbnail(){
+	  if (function_added){
+		console.log("Adding/Removing thumbnail");
+		var video_end_boundary;	// The state variable that indicates the whether we have crossed the (video_end - 5 seconds) boundary.
+		video_end_boundary = (vid.duration - vid.currentTime) < 5 ? 1 : 0;
 
-	  video_end_boundary = (vid.duration - vid.currentTime) < 5 ? 1 : 0;
-	  
-	  if (video_end_boundary != video_end_boundary_prev){ // state machine to keep track whether it crossed the boundary
-		  
-		  if (video_end_boundary){
-		    console.log("Crossed the video suggestion boundary. Show thumbnails.");
-		    storeFunction();
-		    // Ideally add some delay between these two statements. 
-		    // Or call the next function only after the javascript has been loaded.
+		if (video_end_boundary != video_end_boundary_prev){		
+		  if (video_end_boundary)
 		    setRightVideoSuggestion();
-		  }
 		  else 
-		  {
-		    console.log("Crossed the video suggestion boundary. Remove thumbnails.");
-		    removeVideoSuggestionThumbnails();
-		  }
-		    
-		  video_end_boundary_prev = video_end_boundary; 
-	  }	
+		    removeVideoSuggestionThumbnails();		
+		}
+		video_end_boundary_prev = video_end_boundary;	        
+	    }		
 	}
 	
 	function emulateReceiveAndStoreLeftThumbnail(){
@@ -223,7 +239,7 @@
 
 	// <----------- Event triggers ----------------->
 	
-	vid.ontimeupdate = function() {emulateReceiveAndStoreFunction(); emulateReceiveAndStoreLeftThumbnail();}; 
+	vid.ontimeupdate = function() {emulateReceiveAndStoreFunction(); emulateReceiveAndStoreLeftThumbnail(); addRemoveRightThumbnail();}; 
 
 	
 	// <---------- Helper functions ---------------->
