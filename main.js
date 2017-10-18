@@ -1,12 +1,12 @@
 	// <----------- Global variables to be accessed by all the functions in common ----------------->
 
-    startUpFunction();
+        startUpFunction();
     
 	var vid = document.getElementById("video"); // Get the <video> element with id="myVideo"
 	
 	
-	var image_start 	  = [2.0,  6, 15.25, 22, 32];
-	var image_end	  = [4.5, 10, 18.50, 25, 34];
+	var image_start  = [2.0,  6, 15.25, 22, 32];
+	var image_end	 = [4.5, 10, 18.50, 25, 34];
 
 	var new_image_available = 0;	    // Store in the local variable tells there is a state change : (new image available )
 	var new_function_available = 0;	    // Store in the local variable tells there is a state change : (new image available )
@@ -108,8 +108,15 @@
 	    
 	  // We create a sample javascript file. Store into blob. Get a URL to this blob. Read the content from blob.
 	  // And append this content to the headelement in runtime.
-	    
+	  // document.getElementById("video").style.width= "50%" ;' +
+
 	    var string =  'function setRightVideoSuggestion() {' +
+				    "document.getElementById('video').style.width 	= '50%';" +  
+				    "document.getElementById('video').style.width 	= '50%';" +
+				    "document.getElementById('video').style.position	= 'absolute';" +
+				    "document.getElementById('video').style.bottom 	= '25%';" +
+				    "document.getElementById('video').style.left 	= '5%';" +
+				    "document.getElementById('video').style.opacity 	= '1.0';" +   
 				    'console.log("Calling before video ends function");' +
 				    'document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;' + 
 				    'document.getElementById("img_2").src = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/sintel.jpg";' + 
@@ -182,11 +189,23 @@
 	document.getElementById("img_3").src = "";
 	document.getElementById("links_3").href = "";	  
 	document.getElementById("link_2_end").innerHTML = "" ;
-      }
+
+	document.getElementById('video').style.width 	= '100%';
+	document.getElementById('video').style.height 	= 'auto';
+	document.getElementById('video').style.position	= 'absolute';
+	document.getElementById('video').style.bottom 	= 'initial';
+	document.getElementById('video').style.left 	= 'initial';
+	document.getElementById('video').style.opacity 	= '1.0';
+	}
 
 	// <----------- Event triggers ----------------->
 	
-	vid.ontimeupdate = function() {emulateReceiveAndStoreFunction(); emulateReceiveAndStoreLeftThumbnail(); addRemoveRightThumbnail();}; 
+	vid.ontimeupdate = function() {
+	  emulateReceiveAndStoreFunction(); 
+	  emulateReceiveAndStoreLeftThumbnail(); 
+	  addRemoveRightThumbnail();
+	  
+	}; 
 
 	
 	// <---------- Helper functions ---------------->
@@ -212,6 +231,6 @@
 	
 	// Use this if you want the internal media controller firing engine reponse to trigger, when you want to call the function.
     
-    function testadd(){
+	function testadd(){
         //console.log("Test works!!!");
         }

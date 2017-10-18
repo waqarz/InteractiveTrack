@@ -1,35 +1,37 @@
-
 <div id="container">  
     <h1 align="center"> Demonstration for web interactive track </h1>   
+    
     <div id="video_container"> 
-
-	<video id="video" controls autoplay width="1280" height="720"> 
-            <source src="http://10.4.247.130/InteractiveTrack/ToS.mp4" type="video/mp4">              
+      
+    <div id="video_container_end"> 
+	<video id="video" controls autoplay> 
+	  <source ="video_source" src="http://10.4.247.130/InteractiveTrack/ToS.mp4" type="video/mp4">              
         </video> 
-		<!-- Left image thumbnail with  actors image and actors info from imdb link  -->
-		<div id="image_container_1" class="imgWrapper"> 
-		   <img id="img" src=""/>
-		   <figcaption>
-		   <a id = "links" href=""> <p id="links_text"> </p> </a>
-		  <!--<p> Playback position: <font color="white"> <span style="font-color: white;" id="demo" > </span> </font> </p>-->
-		   </figcaption>
-		</div>    
+    </div>    
+    <!-- Left image thumbnail with  actors image and actors info from imdb link  -->
+    <div id="image_container_1" class="imgWrapper"> 
+	<img id="img" src=""/>
+	<figcaption>
+	<a id = "links" href=""> <p id="links_text"> </p> </a>
+      <!--<p> Playback position: <font color="white"> <span style="font-color: white;" id="demo" > </span> </font> </p>-->
+	</figcaption>
+    </div>    
 
-		<!--- Caption videos at the end  --->
-		<div>
-		  <!-- Interesting video 1, top right with youtube link  -->
-		  <div id="image_container_2" class="imgWrapper"> 
-		    <p align="middle"> <font color="white"> <span id="video_end_text"  align="middle"> </span> </font> </p>
-		    <img id="img_2" />
-		    <p align="middle"> <a id = "links_2" > <span style="font-color: white;" id="link_1_end" > </span> </a></p>
-		  </div>
+    <!--- Caption videos at the end  --->
+    <div>
+      <!-- Interesting video 1, top right with youtube link  -->
+    <div id="image_container_2" class="imgWrapper"> 
+      <p align="middle"> <font color="white"> <span id="video_end_text"  align="middle"> </span> </font> </p>
+      <img id="img_2" />
+      <p align="middle"> <a id = "links_2" > <span style="font-color: white;" id="link_1_end" > </span> </a></p>
+    </div>
 
-		  <!-- Interesting video 2, bottom right with youtube link  -->
-		  <div id="image_container_3" class="imgWrapper"> 
-		    <img id="img_3" />
-		    <p align="middle"> <a id = "links_3" > <span style="font-color: white;" id="link_2_end" > </span> </a></p>
-		  </div>
-		</div>
+      <!-- Interesting video 2, bottom right with youtube link  -->
+    <div id="image_container_3" class="imgWrapper"> 
+      <img id="img_3" />
+      <p align="middle"> <a id = "links_3" > <span style="font-color: white;" id="link_2_end" > </span> </a></p>
+      </div>
+    </div>
 
     </div>    
 
