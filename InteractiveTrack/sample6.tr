@@ -1,3 +1,4 @@
+0
 function setRightVideoSuggestion() {
 	document.getElementById('video').style.width 	= '50%';  
 	document.getElementById('video').style.width 	= '50%';
