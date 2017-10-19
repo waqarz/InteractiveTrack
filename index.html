@@ -21,20 +21,33 @@
 <script>
 
 var mainTimerHandle = "";
+var ticksPerSecond = 10;
 
 function myFunction() {
     document.getElementById("demo").innerHTML = "Started";
-    mainTimerHandle = setInterval(mainTimer, 100);
+    mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);
 }
 
 var mainIterationCount = 0;
 var scriptAdded = new Boolean(false);
 
+var sampleDecodeTimes  = [0, 1,  5, 14, 21, 31];
+var currentSample = 0;
+
 function mainTimer() {
     
-    if (mainIterationCount == 0)
+    if (mainIterationCount == sampleDecodeTimes[currentSample]*ticksPerSecond)
     {
-        setTimeout(loadMainBody, 0);
+        if(sampleDecodeTimes[currentSample] == 0)
+            setTimeout(loadMainBody, 0);
+        else
+        {
+            console.log("*********Iteration: " + mainIterationCount + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
+            setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr");}, 0);
+        }
+        
+        if(currentSample < sampleDecodeTimes.length)
+            currentSample = currentSample + 1;
     }
     
     if(scriptAdded == true)
@@ -52,14 +65,14 @@ function loadMainBody()
         var nodeContents = this.responseText;
         document.getElementsByTagName('body')[0].innerHTML = nodeContents;
 
-        loadMainScript();
+        loadScript("InteractiveTrack/main.tr");
     }
   };
-  xhttp.open("GET", "body.xml", true);
+  xhttp.open("GET", "InteractiveTrack/body.xml", true);
   xhttp.send();
 }
 
-function loadMainScript()
+function loadScript(scriptName)
 {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -73,7 +86,7 @@ function loadMainScript()
         
     }
   };
-  xhttp.open("GET", "main.js", true);
+  xhttp.open("GET", scriptName, true);
   xhttp.send();
 }
 

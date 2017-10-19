@@ -5,8 +5,17 @@
 	var vid = document.getElementById("video"); // Get the <video> element with id="myVideo"
 	
 	
-	var image_start  = [2.0,  6, 15.25, 22, 32];
-	var image_end	 = [4.5, 10, 18.50, 25, 34];
+	var image_start  = [];
+	var image_end	 = [];
+ 
+    var images = [];
+    var links  = [];
+    
+    image_start.push(2.0);
+    image_end.push(4.5);
+      
+    images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor1.jpg"); 
+    links.push("http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4");
 
 	var new_image_available = 0;	    // Store in the local variable tells there is a state change : (new image available )
 	var new_function_available = 0;	    // Store in the local variable tells there is a state change : (new image available )
@@ -69,22 +78,6 @@
 	  // Emulates periodic reading of interactive track of URL information. 
 	  // We assume this information is somehow read from the interactive track.
 	  // And this information is stored in local storage for later processing by some other element.
-	  var images = []
-	  var links  = [];
-	  
-	  
-	  images[0] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor1.jpg";           
-	  images[1] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor2.jpg";	    
-	  images[2] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor2.jpg";
-	  images[3] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor4.jpg";
-	  images[4] = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor3.jpg";
-	  
-	  links[0]  = "http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4";
-	  links[1]  = "http://www.imdb.com/name/nm3316142/?ref_=ttfc_fc_cl_t2";
-	  links[2]  = "http://www.imdb.com/name/nm3316142/?ref_=ttfc_fc_cl_t2";
-	  links[3]  = "http://www.imdb.com/name/nm1851201/?ref_=tt_cl_t3";
-	  links[4]  = "http://www.imdb.com/name/nm0513190/?ref_=ttfc_fc_cl_t1";
-	  
 	  
 	  if (!pos){	     
 	    console.log("Emulating process 1. Storing the URL and images in local storage.");
