@@ -29,7 +29,8 @@
 	function startUpFunction() {	 
 	  // Execture on startup.
 	  setInterval(checkForLeftThumbnail, 100); // Every 100ms check any new information for left thumbnail arrived or not.
-	  setInterval(checkForRightThumbnail, 100); // Every 100ms check any new information for right thumbnail arrived or not.
+	  //setInterval(checkForRightThumbnail, 100); // Every 100ms check any new information for right thumbnail arrived or not.\
+	  // Uncomment this if you need to do it within the code
 	}
 
 	function checkForLeftThumbnail(){
@@ -133,9 +134,10 @@
 	    video_end_boundary = (vid.duration - vid.currentTime) < 5 ? 1 : 0;
 	    
 	    if (video_end_boundary != video_end_boundary_prev){ // state machine to keep track whether it crossed the boundary		    
-		storeFunction();
+		//storeFunction(); Uncomment this in case
+		console.log("You can invoke the function. It is already saved from sample6.tr");
+		function_added = 1;
 		new_function_available = 1;
-		console.log("Function stored");
 		video_end_boundary = !video_end_boundary;
 	    }
 	    video_end_boundary_prev = video_end_boundary;	    
@@ -149,8 +151,10 @@
 		video_end_boundary = (vid.duration - vid.currentTime) < 5 ? 1 : 0;
 
 		if (video_end_boundary != video_end_boundary_prev){		
-		  if (video_end_boundary)
+		  if (video_end_boundary){
+		    console.log('Setting video thumbnail');
 		    setRightVideoSuggestion();
+		  }
 		  else 
 		    removeVideoSuggestionThumbnails();		
 		}

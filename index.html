@@ -31,7 +31,7 @@ function myFunction() {
 var mainIterationCount = 0;
 var scriptAdded = new Boolean(false);
 
-var sampleDecodeTimes  = [0, 1,  5, 14, 21, 31];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this
+var sampleDecodeTimes  = [0, 1,  5, 14, 21, 31, 33];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this
 var currentSample = 0;
 
 function mainTimer() {
@@ -43,7 +43,8 @@ function mainTimer() {
         else
         {
             console.log("*********Iteration: " + mainIterationCount + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
-            setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr");}, 0);    //Load a sample
+            setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr");}, 0);    
+            //Load a sample
         }
         
         if(currentSample < sampleDecodeTimes.length)
@@ -57,11 +58,9 @@ function loadMainBody()
 {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      
+    if (this.readyState == 4 && this.status == 200) {      
         var nodeContents = this.responseText;
         document.getElementsByTagName('body')[0].innerHTML = nodeContents;
-
         loadScript("InteractiveTrack/main.tr");
     }
   };
