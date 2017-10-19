@@ -223,7 +223,3 @@
 	};
 	
 	// Use this if you want the internal media controller firing engine reponse to trigger, when you want to call the function.
-    
-	function testadd(){
-        //console.log("Test works!!!");
-        }

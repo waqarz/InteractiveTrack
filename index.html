@@ -21,7 +21,7 @@
 <script>
 
 var mainTimerHandle = "";
-var ticksPerSecond = 10;
+var ticksPerSecond = 10;    //Define timer resolution
 
 function myFunction() {
     document.getElementById("demo").innerHTML = "Started";
@@ -31,27 +31,24 @@ function myFunction() {
 var mainIterationCount = 0;
 var scriptAdded = new Boolean(false);
 
-var sampleDecodeTimes  = [0, 1,  5, 14, 21, 31];
+var sampleDecodeTimes  = [0, 1,  5, 14, 21, 31];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this
 var currentSample = 0;
 
 function mainTimer() {
     
-    if (mainIterationCount == sampleDecodeTimes[currentSample]*ticksPerSecond)
+    if (mainIterationCount == sampleDecodeTimes[currentSample]*ticksPerSecond)  //Assuming timer is accurate (defined by ticksPerSecond)
     {
-        if(sampleDecodeTimes[currentSample] == 0)
+        if(sampleDecodeTimes[currentSample] == 0)   //"init"/IDR information
             setTimeout(loadMainBody, 0);
         else
         {
             console.log("*********Iteration: " + mainIterationCount + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
-            setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr");}, 0);
+            setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr");}, 0);    //Load a sample
         }
         
         if(currentSample < sampleDecodeTimes.length)
-            currentSample = currentSample + 1;
+            currentSample = currentSample + 1;  //Iterate over samples
     }
-    
-    if(scriptAdded == true)
-        testadd();
     
     mainIterationCount=mainIterationCount+1;
 }
