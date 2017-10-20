@@ -22,37 +22,48 @@
 
 var mainTimerHandle = "";
 var ticksPerSecond = 10;    //Define timer resolution
+var vid;
 
 function myFunction() {
     document.getElementById("demo").innerHTML = "Started";
-    mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);    
+    setTimeout(loadMainBody, 0); // Lo
+    setTimeout(initializeVideo, 50);
+    //mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);    
 }
 
 var mainIterationCount = 0;
 var scriptAdded = new Boolean(false);
 
-var sampleDecodeTimes  = [0, 1];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this
+var sampleDecodeTimes  = [1];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this. The other decode times are read during the run-time.
 var currentSample = 0;
 var accumulatedTime = 1;
+var video_previous_playback_time = -1;
 
-function mainTimer() {
-    
-    if (mainIterationCount == sampleDecodeTimes[currentSample]*ticksPerSecond)  //Assuming timer is accurate (defined by ticksPerSecond)
-    {
-        if(sampleDecodeTimes[currentSample] == 0)   //"init"/IDR information
-            setTimeout(loadMainBody, 0);
-        else
-        {
-            console.log("*********Iteration: " + mainIterationCount + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
-            setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr", 0);}, 0);    
-            //Load a sample
-        }
-        
-        if(currentSample < sampleDecodeTimes.length)
-            currentSample = currentSample + 1;  //Iterate over samples
-    }
-    
-    mainIterationCount=mainIterationCount+1;
+function initializeVideo() {
+  vid = document.getElementById("video");
+  console.log(vid);
+  vid.ontimeupdate = function () { 
+	  mainTimer((Math.round(vid.currentTime)));
+	  emulateReceiveAndStoreFunction(); 
+	  emulateReceiveAndStoreLeftThumbnail(); 
+	  addRemoveRightThumbnail();
+    };
+}
+
+function mainTimer(currentPlaybackTime) {
+  //console.log("Current playback time =" + currentPlaybackTime);
+  //console.log("Video previous playback time =" + video_previous_playback_time);
+  //console.log("Sample decode time =" + sampleDecodeTimes[currentSample]);
+  if ((video_previous_playback_time != currentPlaybackTime) && (currentSample < 7)){
+    if (currentPlaybackTime == sampleDecodeTimes[currentSample])  //Assuming timer is accurate (defined by ticksPerSecond)
+      {
+	  console.log("*********Playbacktime: " + currentPlaybackTime + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
+	  setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr", 0);}, 0);    
+	  //Load a sample	  
+	  currentSample = currentSample + 1;  //Iterate over samples
+      }
+    video_previous_playback_time = currentPlaybackTime;
+  }    
 }
 
 function loadMainBody()
@@ -87,6 +98,7 @@ function loadScript(scriptName, isSampleZero)
 	  var scriptContents;
 	  var components = scriptContentsWithTime.split('\n');
 	  time = components.shift();
+	  console.log(time);
 	  accumulatedTime = accumulatedTime + Number(time);
 	  sampleDecodeTimes.push(accumulatedTime);
 	  console.log(sampleDecodeTimes);

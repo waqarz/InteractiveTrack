@@ -195,16 +195,7 @@
 	document.getElementById('video').style.opacity 	= '1.0';
 	}
 
-	// <----------- Event triggers ----------------->
-	
-	vid.ontimeupdate = function() {
-	  emulateReceiveAndStoreFunction(); 
-	  emulateReceiveAndStoreLeftThumbnail(); 
-	  addRemoveRightThumbnail();
-	  
-	}; 
 
-	
 	// <---------- Helper functions ---------------->
 	
 	function identifyCurrentPosition(time){
