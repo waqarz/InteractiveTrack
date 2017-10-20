@@ -25,7 +25,7 @@ var ticksPerSecond = 10;    //Define timer resolution
 
 function myFunction() {
     document.getElementById("demo").innerHTML = "Started";
-    mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);
+    mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);    
 }
 
 var mainIterationCount = 0;
@@ -44,9 +44,12 @@ function mainTimer() {
         else
         {
             console.log("*********Iteration: " + mainIterationCount + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
-            setTimeout(function(){loadScript_withTime("InteractiveTrack/sample" + (currentSample) + ".tr");}, 0);    
-            //Load a sample            
-        }        
+            setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr", 0);}, 0);    
+            //Load a sample
+        }
+        
+        if(currentSample < sampleDecodeTimes.length)
+            currentSample = currentSample + 1;  //Iterate over samples
     }
     
     mainIterationCount=mainIterationCount+1;
@@ -59,67 +62,45 @@ function loadMainBody()
     if (this.readyState == 4 && this.status == 200) {      
         var nodeContents = this.responseText;
         document.getElementsByTagName('body')[0].innerHTML = nodeContents;
-        loadScript("InteractiveTrack/main.tr");
+        loadScript("InteractiveTrack/main.tr", 1);
     }
   };
   xhttp.open("GET", "InteractiveTrack/body.xml", true);
   xhttp.send();
 }
 
-function loadScript(scriptName)
+function loadScript(scriptName, isSampleZero)
 {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       
-        var scriptContents = this.responseText;
-        var theScript = document.createElement('script');
-        theScript.appendChild(document.createTextNode(scriptContents));
-        document.getElementsByTagName('head')[0].appendChild(theScript);
-        scriptAdded = true;
-        
+	if(isSampleZero){
+	  var scriptContents = this.responseText;
+	  var theScript = document.createElement('script');
+	  theScript.appendChild(document.createTextNode(scriptContents));
+	  document.getElementsByTagName('head')[0].appendChild(theScript);
+	  scriptAdded = true;
+	}
+	else{
+	  var scriptContentsWithTime = this.responseText;
+	  var scriptContents;
+	  var components = scriptContentsWithTime.split('\n');
+	  time = components.shift();
+	  accumulatedTime = accumulatedTime + Number(time);
+	  sampleDecodeTimes.push(accumulatedTime);
+	  console.log(sampleDecodeTimes);
+	  
+	  scriptContents = components.join('\n');      
+	  var theScript = document.createElement('script');	  
+	  theScript.appendChild(document.createTextNode(scriptContents));
+	  document.getElementsByTagName('head')[0].appendChild(theScript);
+	  scriptAdded = true;
+	}        
     }
   };
   xhttp.open("GET", scriptName, true);
   xhttp.send();
-  
-  if(currentSample < sampleDecodeTimes.length)
-    currentSample = currentSample + 1;  //Iterate over samples  
-  
-}
-
-function loadScript_withTime(scriptName)
-{
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      
-        var scriptContentsWithTime = this.responseText;
-        var scriptContents;
-
-        	var components = scriptContentsWithTime.split('\n');
-        time = components.shift();
-        accumulatedTime = accumulatedTime + Number(time);
-        sampleDecodeTimes.push(accumulatedTime);
-        console.log("Updated sample decode time = " sampleDecodeTimes);
-        
-        
-	scriptContents = components.join('\n');      
-	
-	//console.log(scriptContents);
-	//console.log(time);
-        
-        var theScript = document.createElement('script');
-        theScript.appendChild(document.createTextNode(scriptContents));
-        document.getElementsByTagName('head')[0].appendChild(theScript);
-        scriptAdded = true;       
-    }
-  };
-  xhttp.open("GET", scriptName, true);
-  xhttp.send();
-  
-  if(currentSample < sampleDecodeTimes.length)
-    currentSample = currentSample + 1;  //Iterate over samples  
 }
 
 function loadXMLDoc() {
@@ -133,8 +114,6 @@ function loadXMLDoc() {
   xhttp.open("GET", "xmlhttp_info.txt", true);
   xhttp.send();
 }
-
-
 </script>
 
 
