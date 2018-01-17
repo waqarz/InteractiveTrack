@@ -5,7 +5,7 @@
       
     <div id="video_container_end"> 
 	<video id="video" controls autoplay> 
-	  <source ="video_source" src="http://54.72.87.160/InteractiveTrack/Video/ToS.mp4" type="video/mp4">              
+	  <source ="video_source" src="Video/ToS_4Mbps.mp4" type="video/mp4">              
         </video> 
     </div>    
     <!-- Left image thumbnail with  actors image and actors info from imdb link  -->
@@ -32,7 +32,16 @@
       <p align="middle"> <a id = "links_3" > <span style="font-color: white;" id="link_2_end" > </span> </a></p>
       </div>
     </div>
-
+    
+    <!-- Image display at the right side coming from Broadcaster  -->
+    <div id="image_container_4" class="imgWrapper"> 
+	<img id="img_4" src=""/>
+	<figcaption>
+	<a id = "links_4" href=""> <p id="links_text_4"> </p> </a>
+      <!--<p> Playback position: <font color="white"> <span style="font-color: white;" id="demo" > </span> </font> </p>-->
+	</figcaption>
+    </div>    
+    
     </div>    
 
 </div> 

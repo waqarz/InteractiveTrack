@@ -1,0 +1,69 @@
+
+ #TimeFromNowMin{
+    left: 0%;
+    top: 5%;
+    margin: 1%;
+    width: 40px;
+    height: auto;
+ }
+ 
+  #MediaTimeMin{
+    left: 0%;
+    top: 15%;
+    margin: 1%;
+    width: 40px;
+    height: auto;
+ }
+ #LaunchButton{
+    right: 0%;
+    top: 90%;
+    margin: 1%;
+    width: 80px;
+    height: auto;
+ }
+ 
+ #img_box1{
+    left: 0%;
+    top: 30%;
+    margin: 1%;
+    width: 150px;
+    height: 150px;
+ }
+ 
+ #img_button1 img {
+    display: block;
+    height: 130px;  
+    width: 100px;
+}
+#img_button1:focus
+{
+    background:black;
+}
+ 
+#img_button2 img {
+    display: block;
+    height: 130px;  
+    width: 100px;
+}
+#img_button2:focus
+{
+    background:black;
+}
+ #img_button3 img {
+    display: block;
+    height: 130px;  
+    width: 100px;
+}
+#img_button3:focus
+{
+    background:black;
+}
+ #img_button4 img {
+    display: block;
+    height: 130px;  
+    width: 100px;
+}
+#img_button4:focus
+{
+    background:black;
+}

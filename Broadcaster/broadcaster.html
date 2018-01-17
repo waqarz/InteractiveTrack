@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+    <script>
+        var imgToDisplay="";
+        function LaunchFunction() {
+            var launchTime = new Date().getTime() / 1000; // The time in sec since 1 Jan 1970.
+            var timeFromNowMin=document.getElementById("TimeFromNowMin").value;
+            var timeFromNowSec=document.getElementById("TimeFromNowSec").value;
+            var mediaTimeMin=document.getElementById("MediaTimeMin").value;
+            var mediaTimeSec=document.getElementById("MediaTimeSec").value;
+            var timeFromNow=timeFromNowMin*60+timeFromNowSec;
+            var mediaTime=mediaTimeMin*60+mediaTimeSec;
+            
+            $.post(
+                     "createSampleTr.php",
+                     {timeFromNow: timeFromNow,mediaTime:mediaTime,image:imgToDisplay, launchTime:launchTime }
+                    ).done(function(response){
+                        console.log(response);
+                        console.log("Created Sample Tr");
+                    
+                 });
+            
+        }
+        function clickImg1(){
+            var source=document.getElementById("img1").src;
+            imgToDisplay=source;
+        }
+        function clickImg2(){
+            var source=document.getElementById("img2").src;
+            imgToDisplay=source;
+        }
+        function clickImg3(){
+            var source=document.getElementById("img3").src;
+            imgToDisplay=source;
+        }
+        function clickImg4(){
+            var source=document.getElementById("img4").src;
+            imgToDisplay=source;
+        }
+    </script>
+  </head>
+  <body>
+    <h1>Broadcast Settings</h1>
+    
+    <div>
+        Time from Now : min
+        <input type="number" id="TimeFromNowMin" min="0" value="0"> : sec
+        <input type="number" id="TimeFromNowSec" min="0" max="60" value="0">
+     </div>
+    
+    <div>
+        Media Time :   min
+        <input type="number" id="MediaTimeMin" min="0" value="0"> : sec
+        <input type="number" id="MediaTimeSec" min="0" max="60" value="0">
+     </div>
+    <div>
+    <button id="img_button1" onclick="clickImg1()"><img src="actor1.jpg" id="img1"></button>
+    <button id="img_button2" onclick="clickImg2()"><img src="actor2.jpg" id="img2"></button>
+    <button id="img_button3" onclick="clickImg3()"><img src="actor3.jpg" id="img3"></button>
+    <button id="img_button4" onclick="clickImg4()"><img src="actor4.jpg" id="img4"></button>
+    </div>
+     
+    <button onclick="LaunchFunction()" id="LaunchButton">Launch</button>
+
+
+  </body>
+</html>
