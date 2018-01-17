@@ -1,6 +1,6 @@
 1
-image_start.push(7);
-image_end.push(8);
+image_start.push(26);
+image_end.push(27);
 
 images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor3.jpg");
 links.push("http://www.imdb.com/name/nm3316142/?ref_=ttfc_fc_cl_t2");

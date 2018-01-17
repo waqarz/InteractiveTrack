@@ -54,7 +54,7 @@ function mainTimer(currentPlaybackTime) {
   //console.log("Current playback time =" + currentPlaybackTime);
   //console.log("Video previous playback time =" + video_previous_playback_time);
   //console.log("Sample decode time =" + sampleDecodeTimes[currentSample]);
-  if ((video_previous_playback_time != currentPlaybackTime) && (currentSample < 7)){
+  if ((video_previous_playback_time != currentPlaybackTime) && (currentSample < 31)){
     if (currentPlaybackTime == sampleDecodeTimes[currentSample])  //Assuming timer is accurate (defined by ticksPerSecond)
       {
 	  console.log("*********Playbacktime: " + currentPlaybackTime + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");

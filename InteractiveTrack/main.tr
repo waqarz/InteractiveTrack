@@ -12,7 +12,7 @@
     var links  = [];
     
     image_start.push(2.0);
-    image_end.push(4.5);
+    image_end.push(3.0);
       
     images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor1.jpg"); 
     links.push("http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4");

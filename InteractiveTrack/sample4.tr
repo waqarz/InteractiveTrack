@@ -1,6 +1,6 @@
-10
-image_start.push(22);
-image_end.push(25);
+1
+image_start.push(5);
+image_end.push(6);
 
-images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor4.jpg");
-links.push("http://www.imdb.com/name/nm1851201/?ref_=tt_cl_t3");
+images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor3.jpg");
+links.push("http://www.imdb.com/name/nm3316142/?ref_=ttfc_fc_cl_t2");
