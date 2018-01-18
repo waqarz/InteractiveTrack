@@ -1,0 +1,17 @@
+0
+function setRightVideoSuggestion() {
+	document.getElementById('video').style.width 	= '50%';
+	document.getElementById('video').style.width 	= '50%';
+	document.getElementById('video').style.position	= 'absolute';
+	document.getElementById('video').style.bottom 	= '25%';
+	document.getElementById('video').style.left 	= '5%';
+	document.getElementById('video').style.opacity 	= '1.0';
+	console.log("Calling before video ends function");
+	document.getElementById("video_end_text").innerHTML = "You may be also interested in" ;
+	document.getElementById("img_2").src = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/sintel.jpg";
+	document.getElementById("links_2").href = "https://www.youtube.com/watch?v=eRsGyueVLvQ";
+	document.getElementById("link_1_end").innerHTML = "Watch here" ;
+	document.getElementById("img_3").src = "https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/bbb.png";
+	document.getElementById("links_3").href = "https://www.youtube.com/watch?v=YE7VzlLtp-4";
+	document.getElementById("link_2_end").innerHTML = "Watch here" ;
+	}
