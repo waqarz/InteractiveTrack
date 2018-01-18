@@ -16,6 +16,13 @@
 
 <p id="demo"></p>
 
+
+<div>
+    <input type="checkbox" id="interactivity" value="yes"> Enable interactivity<br>
+</div>
+
+
+
 </body>
 
 <script>
@@ -23,18 +30,23 @@
 var mainTimerHandle = "";
 var ticksPerSecond = 10;    //Define timer resolution
 var vid;
+var interactivityEnabled = 0;
 
 function myFunction() {
     document.getElementById("demo").innerHTML = "Started";
+    
+    if(document.getElementById("interactivity").checked)
+        interactivityEnabled = 1;
+    
     setTimeout(loadMainBody, 0); // Lo
-    setTimeout(initializeVideo, 250);
+    setTimeout(initializeVideo, 10);
     //mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);    
 }
 
 var mainIterationCount = 0;
 var scriptAdded = new Boolean(false);
 
-var sampleDecodeTimes  = [1];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this. The other decode times are read during the run-time.
+var sampleDecodeTimes  = [0, 0.5, 1];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this. The other decode times are read during the run-time.
 var currentSample = 0;
 var accumulatedTime = 1;
 var video_previous_playback_time = -1;
@@ -43,7 +55,7 @@ function initializeVideo() {
   vid = document.getElementById("video");
   console.log(vid);
   vid.ontimeupdate = function () { 
-	  mainTimer((Math.round(vid.currentTime)));
+	  mainTimer(((vid.currentTime)));
 	  emulateReceiveAndStoreFunction(); 
 	  emulateReceiveAndStoreLeftThumbnail(); 
 	  addRemoveRightThumbnail();
@@ -51,14 +63,18 @@ function initializeVideo() {
 }
 
 function mainTimer(currentPlaybackTime) {
+  console.log(currentPlaybackTime)
+  currentPlaybackTime = Math.round(currentPlaybackTime);
   //console.log("Current playback time =" + currentPlaybackTime);
   //console.log("Video previous playback time =" + video_previous_playback_time);
   //console.log("Sample decode time =" + sampleDecodeTimes[currentSample]);
-  if ((video_previous_playback_time != currentPlaybackTime) && (currentSample < 31)){
-    if (currentPlaybackTime == sampleDecodeTimes[currentSample])  //Assuming timer is accurate (defined by ticksPerSecond)
+  if ((video_previous_playback_time != currentPlaybackTime) && (currentSample < 65)){
+    console.log("** Current sample is " + currentSample);
+    if ( (currentPlaybackTime == sampleDecodeTimes[currentSample]) || ((currentPlaybackTime - 0.5) == sampleDecodeTimes[currentSample]) || ((currentPlaybackTime + 0.5) == sampleDecodeTimes[currentSample]) )  //Assuming timer is accurate (defined by ticksPerSecond)
       {
 	  console.log("*********Playbacktime: " + currentPlaybackTime + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
-	  setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr", 0);}, 0);    
+	  setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr", 0);}, 0);
+	  currentPlaybackTime = sampleDecodeTimes[currentSample];
 	  //Load a sample	  
 	  currentSample = currentSample + 1;  //Iterate over samples
       }
@@ -85,6 +101,7 @@ function loadScript(scriptName, isSampleZero)
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+        console.log("** Script name is " + scriptName);
       
 	if(isSampleZero){
 	  var scriptContents = this.responseText;
@@ -98,12 +115,11 @@ function loadScript(scriptName, isSampleZero)
 	  var scriptContents;
 	  var components = scriptContentsWithTime.split('\n');
 	  time = components.shift();
-	  console.log(time);
-	  accumulatedTime = accumulatedTime + Number(time);
+	  accumulatedTime = Math.round((accumulatedTime + Number(time))*10)/10;
 	  sampleDecodeTimes.push(accumulatedTime);
 	  console.log(sampleDecodeTimes);
 	  
-	  scriptContents = components.join('\n');      
+	  scriptContents = components.join('\n');    
 	  var theScript = document.createElement('script');	  
 	  theScript.appendChild(document.createTextNode(scriptContents));
 	  document.getElementsByTagName('head')[0].appendChild(theScript);
