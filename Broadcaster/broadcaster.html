@@ -10,6 +10,8 @@
 
     <script>
         var imgToDisplay="";
+        var nameToDisplay="";
+        var linktoDisplay="";
         function LaunchFunction() {
             var launchTime = new Date().getTime() / 1000; // The time in sec since 1 Jan 1970.
             var timeFromNowMin=document.getElementById("TimeFromNowMin").value;
@@ -21,34 +23,46 @@
             
             $.post(
                      "createSampleTr.php",
-                     {timeFromNow: timeFromNow,mediaTime:mediaTime,image:imgToDisplay, launchTime:launchTime }
+                     {timeFromNow: timeFromNow,mediaTime:mediaTime,image:imgToDisplay, launchTime:launchTime ,
+                         nameToDisplay:nameToDisplay, linkToDisplay:linkToDisplay}
                     ).done(function(response){
                         console.log(response);
                         console.log("Created Sample Tr");
+                        document.getElementById("outputBox").style.display="block";
+                        document.getElementById("outputBox").value="Code inserted into"+response; 
                     
                  });
+                
             
         }
         function clickImg1(){
             var source=document.getElementById("img1").src;
             imgToDisplay=source;
+            nameToDisplay="Ton Roosendal (Production)";
+            linkToDisplay="http://www.imdb.com/name/nm2278225/";
         }
         function clickImg2(){
             var source=document.getElementById("img2").src;
             imgToDisplay=source;
+            nameToDisplay="Ian Hubert (Direction)";
+             linkToDisplay="http://www.imdb.com/name/nm1937843/?ref_=fn_al_nm_1";
         }
         function clickImg3(){
             var source=document.getElementById("img3").src;
             imgToDisplay=source;
+            nameToDisplay="Joris Kerbosch (Cinematography)";
+             linkToDisplay="http://www.imdb.com/name/nm1514878/?ref_=fn_al_nm_1";
         }
         function clickImg4(){
             var source=document.getElementById("img4").src;
             imgToDisplay=source;
+            nameToDisplay="Houdijn Beekhuis (Casting)";
+             linkToDisplay="http://www.imdb.com/name/nm4591432/?ref_=fn_al_nm_1";
         }
     </script>
   </head>
   <body>
-    <h1>Broadcast Settings</h1>
+    <h2>Select Profile to Insert in Track</h2>
     
     <div>
         Time from Now : min
@@ -62,14 +76,22 @@
         <input type="number" id="MediaTimeSec" min="0" max="60" value="0">
      </div>
     <div>
-    <button id="img_button1" onclick="clickImg1()"><img src="actor1.jpg" id="img1"></button>
-    <button id="img_button2" onclick="clickImg2()"><img src="actor2.jpg" id="img2"></button>
-    <button id="img_button3" onclick="clickImg3()"><img src="actor3.jpg" id="img3"></button>
-    <button id="img_button4" onclick="clickImg4()"><img src="actor4.jpg" id="img4"></button>
+    <button id="name_button1" >Ton Roosendal (Production)</button>
+    <button id="name_button2" >Ian Hubert (Direction)</button>
+    <button id="name_button3" >Joris Kerbosch (Cinematography)</button>
+    <button id="name_button4" >Houdijn Beekhuis (Casting)</button>
+    </div>
+    <div>
+    <button id="img_button1" onclick="clickImg1()"><img src="image1.jpg" id="img1"> </button>
+    <button id="img_button2" onclick="clickImg2()"><img src="image2.jpg" id="img2"></button>
+    <button id="img_button3" onclick="clickImg3()"><img src="image3.jpg" id="img3"></button>
+    <button id="img_button4" onclick="clickImg4()"><img src="image4.jpg" id="img4"></button>
     </div>
      
-    <button onclick="LaunchFunction()" id="LaunchButton">Launch</button>
-
-
+    <button onclick="LaunchFunction()" id="LaunchButton">Insert</button>
+    <div>
+        <textarea id="outputBox" rows="5" cols="100" style="display: none"></textarea>
+    </div>
+    
   </body>
 </html>

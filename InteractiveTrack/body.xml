@@ -37,7 +37,7 @@
     <div id="image_container_4" class="imgWrapper"> 
 	<img id="img_4" src=""/>
 	<figcaption>
-	<a id = "links_4" href=""> <p id="links_text_4"> </p> </a>
+	<a id = "links_4" href=""> <p id="links_text_4" style="color: white;"> </p> </a>
       <!--<p> Playback position: <font color="white"> <span style="font-color: white;" id="demo" > </span> </font> </p>-->
 	</figcaption>
     </div>    

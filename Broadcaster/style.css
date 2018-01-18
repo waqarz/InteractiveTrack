@@ -10,7 +10,7 @@
   #MediaTimeMin{
     left: 0%;
     top: 15%;
-    margin: 1%;
+    margin: 2%;
     width: 40px;
     height: auto;
  }
@@ -21,49 +21,80 @@
     width: 80px;
     height: auto;
  }
- 
- #img_box1{
-    left: 0%;
-    top: 30%;
-    margin: 1%;
-    width: 150px;
-    height: 150px;
- }
- 
+  #name_button1 {
+    top: 50%;
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:5px;
+}
+ #name_button2 {
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:15px;
+}
+ #name_button3 {
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:20px;
+}
+ #name_button4 {
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:30px;
+
+}
  #img_button1 img {
     display: block;
     height: 130px;  
-    width: 100px;
+    width: 108px;
 }
 #img_button1:focus
 {
-    background:black;
+    background:cadetblue;
 }
  
 #img_button2 img {
     display: block;
     height: 130px;  
-    width: 100px;
+    width: 108px;
 }
 #img_button2:focus
 {
-    background:black;
+    background:cadetblue;
 }
  #img_button3 img {
     display: block;
     height: 130px;  
-    width: 100px;
+    width: 108px;
 }
 #img_button3:focus
 {
-    background:black;
+    background:cadetblue;
 }
  #img_button4 img {
     display: block;
     height: 130px;  
-    width: 100px;
+    width: 108px;
 }
 #img_button4:focus
 {
-    background:black;
+    background:cadetblue;
 }
+
+#outputBox{
+    height: 120px;  
+    width: 400px;
+}
+

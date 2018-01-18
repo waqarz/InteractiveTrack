@@ -10,6 +10,8 @@ $timeFromNow=$_POST['timeFromNow'];
 $mediaTime=$_POST['mediaTime'];
 $imageToDisplay=$_POST['image'];
 $launchTime=$_POST['launchTime'];
+$nameToDisplay=$_POST['nameToDisplay'];
+$linkToDisplay=$_POST['linkToDisplay'];
 //Find the exact sample file in the interactive track that needs to be changed.
 if($timeFromNow!=0)
 {   
@@ -27,13 +29,24 @@ $sampleFileNum=$mediaTime/$sampleFrequency;
 $sampleFileTobeChanged="../InteractiveTrack/sample".(int)$sampleFileNum.".tr";
 if(file_exists($sampleFileTobeChanged))
 {
-    $fp= fopen($sampleFileTobeChanged, "a")  or die("can't open file");
-    $string='rightImageIncoming=1; document.getElementById("img_4").src = "'.$imageToDisplay.'";' ;
-	    //.'document.getElementById("links_4").href = "https://www.youtube.com/watch?v=eRsGyueVLvQ";' .
-            //'document.getElementById("links_text_4").innerHTML = "Click here";';
+    $fp= fopen($sampleFileTobeChanged, "a")  or die("can't open sample file to be changed\n");
+    $string="\n".'rightImageIncoming=1;'." \n".'document.getElementById("img_4").src = "'.$imageToDisplay.'";'."\n". 
+	    'document.getElementById("links_4").href ="'. $linkToDisplay.'";' ."\n".
+            'document.getElementById("links_text_4").innerHTML = "'.$nameToDisplay.'";';
     fwrite($fp, $string);
     fclose($fp);
-    echo "Sample file ".$sampleFileTobeChanged." changed";
+    echo ' Sample '.$sampleFileNum.' at Media time '.$mediaTime." sec\n\n".'document.getElementById("img_4").src = "'.$imageToDisplay.'";'."\n". 
+	    'document.getElementById("links_4").href ="'. $linkToDisplay.'";' ."\n".
+            'document.getElementById("links_text_4").innerHTML = "'.$nameToDisplay.'";';
+    //echo "Sample file ".$sampleFileTobeChanged." changed\n";
+    
+    //Write to a file , which sample has been changed. Its to revert the change
+    //at the end of the video playback.
+    $fp_sample= fopen("../sampleChanged.txt", "w")  or die("can't open file to write changed sample number");
+    fwrite($fp_sample, $sampleFileNum );
+    fclose($fp_sample);
+    //echo "Changed sample number written to file";
+    
 }
 else
     echo "Sample file not found"

@@ -27,6 +27,11 @@ var mainTimerHandle = "";
 var ticksPerSecond = 10;    //Define timer resolution
 var vid;
 
+window.onload = function()
+    {	
+        initializeSamples();
+    }
+    
 function myFunction() {
     document.getElementById("demo").innerHTML = "Started";
     var startTime = new Date().getTime() / 1000; // The time in sec since 1 Jan 1970.
@@ -61,6 +66,10 @@ function initializeVideo() {
 	  addRemoveRightThumbnail();
 	  removeRightImage();//To remove right side image by broadcaster after a certain time of display.
     };
+  
+  vid.onended=function(){
+          initializeSamples();
+  }
 }
 
 function mainTimer(currentPlaybackTime) {
@@ -153,6 +162,13 @@ function removeRightImage(){
         rightImageIncoming=0;
     }
     
+}
+function initializeSamples(){
+    $.post(
+            "ReinitializeSamples.php",
+            ).done(function(response){
+            console.log(response);
+        });
 }
 </script>
 
