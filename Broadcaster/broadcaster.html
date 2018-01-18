@@ -12,6 +12,11 @@
         var imgToDisplay="";
         var nameToDisplay="";
         var linktoDisplay="";
+        window.onload=function(){
+            document.getElementById("MediaTimeDiv").style.display="none";
+            document.getElementById("TimeFromNowDiv").style.display="none";
+          
+        }
         function LaunchFunction() {
             var launchTime = new Date().getTime() / 1000; // The time in sec since 1 Jan 1970.
             var timeFromNowMin=document.getElementById("TimeFromNowMin").value;
@@ -59,22 +64,41 @@
             nameToDisplay="Houdijn Beekhuis (Casting)";
              linkToDisplay="http://www.imdb.com/name/nm4591432/?ref_=fn_al_nm_1";
         }
+        function handleRadioTimeNow(){
+            document.getElementById("TimeFromNowDiv").style.display="inline-block";
+
+        }
+        function handleRadioMedia(){
+            document.getElementById("MediaTimeDiv").style.display="inline-block";
+
+        }
     </script>
   </head>
   <body>
     <h2>Select Profile to Insert in Track</h2>
     
-    <div>
-        Time from Now : min
+    <div id="Div1">
+        <div id="radioDiv1">
+            <input type="radio" id="radioTimeNow" onclick="handleRadioTimeNow();"> Time from Now
+        </div>
+        <div id="TimeFromNowDiv">
+        : min
         <input type="number" id="TimeFromNowMin" min="0" value="0"> : sec
         <input type="number" id="TimeFromNowSec" min="0" max="60" value="0">
-     </div>
+        </div>
+    </div>
     
-    <div>
-        Media Time :   min
+    <div id="Div2">
+        <div id="radioDiv2">
+            <input type="radio" id="radioMedia" onclick="handleRadioMedia();"> Media Time 
+        </div>
+        <div id="MediaTimeDiv">
+        : min
         <input type="number" id="MediaTimeMin" min="0" value="0"> : sec
         <input type="number" id="MediaTimeSec" min="0" max="60" value="0">
-     </div>
+        </div>
+    </div>
+    
     <div>
     <button id="name_button1" >Ton Roosendal (Production)</button>
     <button id="name_button2" >Ian Hubert (Direction)</button>
