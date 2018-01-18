@@ -33,7 +33,7 @@
 var mainTimerHandle = "";
 var ticksPerSecond = 10;    //Define timer resolution
 var vid;
-var interactivityEnabled = 0;
+document.getElementById("interactivity").checked = true;
 
 window.onload = function()
     {	
@@ -49,14 +49,11 @@ function myFunction() {
             ).done(function(response){
             console.log(response);
         });
-                 
-
-
-    if(document.getElementById("interactivity").checked)
-        interactivityEnabled = 1;
     
     setTimeout(loadMainBody, 0); // Lo
-    setTimeout(initializeVideo, 10);
+    
+    if(document.getElementById("interactivity").checked)
+        setTimeout(initializeVideo, 10);
     //mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);    
 }
 
