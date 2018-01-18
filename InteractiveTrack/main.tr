@@ -11,11 +11,11 @@
     var images = [];
     var links  = [];
     
-    image_start.push(2.0);
-    image_end.push(4.5);
+    //image_start.push(2.0);
+    //image_end.push(4.5);
       
-    images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor1.jpg"); 
-    links.push("http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4");
+    //images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor1.jpg"); 
+    //links.push("http://www.imdb.com/name/nm4495815/?ref_=ttfc_fc_cl_t4");
 
 	var new_image_available = 0;	    // Store in the local variable tells there is a state change : (new image available )
 	var new_function_available = 0;	    // Store in the local variable tells there is a state change : (new image available )

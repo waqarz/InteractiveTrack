@@ -23,7 +23,7 @@ if($timeFromNow!=0)
     $mediaTime=$launchTime-$timeInFile+$timeFromNow;
 }
 //Go to the sample track file and append the new contents into it.
-$sampleFrequency=1.0;
+$sampleFrequency=0.5;
 $sampleFileNum=$mediaTime/$sampleFrequency;
 
 $sampleFileTobeChanged="../InteractiveTrack/sample".(int)$sampleFileNum.".tr";
@@ -35,7 +35,7 @@ if(file_exists($sampleFileTobeChanged))
             'document.getElementById("links_text_4").innerHTML = "'.$nameToDisplay.'";';
     fwrite($fp, $string);
     fclose($fp);
-    echo ' Sample '.$sampleFileNum.' at Media time '.$mediaTime." sec\n\n".'document.getElementById("img_4").src = "'.$imageToDisplay.'";'."\n". 
+    echo ' Sample '.(int)$sampleFileNum.' at Media time '.round($mediaTime,1)." sec\n\n".'document.getElementById("img_4").src = "'.$imageToDisplay.'";'."\n". 
 	    'document.getElementById("links_4").href ="'. $linkToDisplay.'";' ."\n".
             'document.getElementById("links_text_4").innerHTML = "'.$nameToDisplay.'";';
     //echo "Sample file ".$sampleFileTobeChanged." changed\n";

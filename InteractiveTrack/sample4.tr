@@ -1,6 +1,4 @@
-10
-image_start.push(22);
-image_end.push(25);
+0.5
 
-images.push("https://raw.githubusercontent.com/AdithyanIlangovan/InteractivityTrackImages/master/actor4.jpg");
-links.push("http://www.imdb.com/name/nm1851201/?ref_=tt_cl_t3");
+
+
