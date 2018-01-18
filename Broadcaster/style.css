@@ -1,16 +1,35 @@
+#Div1{
+    margin: 1%;
+}
+#Div2{
+    margin: 1%;
+}
+#radioDiv1{
+    display:inline-block;
+}
+#TimeFromNowDiv{
+     margin:1%;
+    display:inline-block;
+}
 
  #TimeFromNowMin{
-    left: 0%;
-    top: 5%;
-    margin: 1%;
+
     width: 40px;
     height: auto;
  }
  
+#radioDiv2{
+    display:inline-block;
+}
+#MediaTimeDiv{
+     margin:1%;
+    display:inline-block;
+}
   #MediaTimeMin{
-    left: 0%;
-    top: 15%;
-    margin: 2%;
+    
+
+
+
     width: 40px;
     height: auto;
  }
@@ -22,6 +41,7 @@
     height: auto;
  }
   #name_button1 {
+
     top: 50%;
     display:inline-block;
     height: 35px;  
