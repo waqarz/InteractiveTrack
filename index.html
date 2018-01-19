@@ -26,10 +26,15 @@
                  });
             
             document.getElementById("MediaTimeDiv").style.display="none";
-            document.getElementById("TimeFromNowDiv").style.display="none";
+            //document.getElementById("TimeFromNowDiv").style.display="none";
+            document.getElementById("radioTimeNow").checked=true;
           
         }
         function LaunchFunction() {
+            if(imgToDisplay=="")
+            {
+                alert("Please select a profile");
+            }
             var launchTime = new Date().getTime() / 1000; // The time in sec since 1 Jan 1970.
             var timeFromNowMin=document.getElementById("TimeFromNowMin").value;
             var timeFromNowSec=document.getElementById("TimeFromNowSec").value;
@@ -37,6 +42,12 @@
             var mediaTimeSec=document.getElementById("MediaTimeSec").value;
             var timeFromNow=timeFromNowMin*60+timeFromNowSec;
             var mediaTime=mediaTimeMin*60+mediaTimeSec;
+            if( document.getElementById("radioTimeNow").checked==true)
+            {
+                mediaTime=0;
+            }
+            else
+                timeFromNow=0;
             
             $.post(
                      "createSampleTr.php",
@@ -77,10 +88,12 @@
              linkToDisplay="http://www.imdb.com/name/nm4591432/?ref_=fn_al_nm_1";
         }
         function handleRadioTimeNow(){
+             document.getElementById("radioMedia").checked=false;
             document.getElementById("TimeFromNowDiv").style.display="inline-block";
 
         }
         function handleRadioMedia(){
+            document.getElementById("radioTimeNow").checked=false;
             document.getElementById("MediaTimeDiv").style.display="inline-block";
 
         }

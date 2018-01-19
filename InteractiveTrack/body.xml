@@ -45,7 +45,7 @@
     </div>    
     <!--  Web Interactivity enabling/disabling checkbox option for the receiver application    -->
     <div id="interactive">
-        <input type="checkbox" id="interactivity">
+        <input type="checkbox" id="interactivity" checked="true">
         <label for="interactivity">Enable web interactivity</label>
     </div>
 

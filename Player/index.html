@@ -32,7 +32,7 @@ var vid;
 window.onload = function()
     {	
        // initializeSamples();
-       myFunction();
+ 
     }
     
 function myFunction() {
@@ -46,7 +46,7 @@ function myFunction() {
         });
     
     setTimeout(loadMainBody, 0); // Lo
-    setTimeout(initializeVideo, 100);
+    //setTimeout(initializeVideo, 100);
     //mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);    
 }
 
@@ -103,6 +103,7 @@ function loadMainBody()
         var nodeContents = this.responseText;
         document.getElementsByTagName('body')[0].innerHTML = nodeContents;
         loadScript("InteractiveTrack/main.tr", 1);
+
     }
   };
   xhttp.open("GET", "InteractiveTrack/body.xml", true);
@@ -122,6 +123,8 @@ function loadScript(scriptName, isSampleZero)
 	  theScript.appendChild(document.createTextNode(scriptContents));
 	  document.getElementsByTagName('head')[0].appendChild(theScript);
 	  scriptAdded = true;
+	  setTimeout(initializeVideo, 0);
+
 	}
 	else{
 	  var scriptContentsWithTime = this.responseText;
