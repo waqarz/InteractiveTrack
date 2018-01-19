@@ -1,87 +1,120 @@
-html, body {
-margin: 0px;
-}
-
-#image_container_1 {
-    position: absolute;
-    left: 0%;
-    top: 12%;
+#Div1{
     margin: 1%;
-    width: 12%;
-    height: auto;
-    padding: 5px 5px;
-    font-size: 1em;
-    font-family: Helvetica;
-    overflow:hidden;
 }
-
-img {
-  max-width:100%; 
-  max-height:100%; 
-  display: block;
-  margin: auto auto;
-}
-
-#image_container_2 {
-    position: absolute;
-    right: 0%;
-    top: 6%;
-    width: 20%; 
-    height: auto;
-    margin: 2%;
-    padding: 1% 1%;
-    font-family: 'Cherry Swash', cursive;
-    font-size: 1em;
-    font-weight: 700;
-}
-
-#image_container_3 {
-    position: absolute;
-    right: 0%;
-    bottom: 7%;
-    width: 20%; 
-    height: auto;
-    margin: 2%;
-    padding: 1% 1%;
-    font-family: 'Cherry Swash', cursive;
-    font-size: 1em;
-    font-weight: 700;
-    color: white;
-}
-
-#image_container_4 {
-    position: absolute;
-    right: 0%;
-    top: 12%;
-    width: 12%; 
-    height: auto;
+#Div2{
     margin: 1%;
-    padding: 5px 5px;
-    font-family: Helvetica;
-    font-size: 1em;
-    overflow:hidden;
+}
+#radioDiv1{
+    display:inline-block;
+}
+#TimeFromNowDiv{
+     margin:1%;
+    display:inline-block;
 }
 
-img_4 {
-  max-width:100%; 
-  max-height:100%; 
-  display: block;
-  margin: auto auto;
-}
+ #TimeFromNowMin{
 
-video {
-    width: 100%;
+    width: 40px;
     height: auto;
+ }
+ 
+#radioDiv2{
+    display:inline-block;
+}
+#MediaTimeDiv{
+     margin:1%;
+    display:inline-block;
+}
+  #MediaTimeMin{
+    
+
+
+
+    width: 40px;
+    height: auto;
+ }
+ #LaunchButton{
+    right: 0%;
+    top: 90%;
+    margin: 1%;
+    width: 80px;
+    height: auto;
+ }
+  #name_button1 {
+
+    top: 50%;
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:5px;
+}
+ #name_button2 {
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:15px;
+}
+ #name_button3 {
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:20px;
+}
+ #name_button4 {
+    display:inline-block;
+    height: 35px;  
+    width: 124px;
+    background:white;
+    font-size: 12;
+    left:30px;
+
+}
+ #img_button1 img {
+    display: block;
+    height: 130px;  
+    width: 108px;
+}
+#img_button1:focus
+{
+    background:cadetblue;
+}
+ 
+#img_button2 img {
+    display: block;
+    height: 130px;  
+    width: 108px;
+}
+#img_button2:focus
+{
+    background:cadetblue;
+}
+ #img_button3 img {
+    display: block;
+    height: 130px;  
+    width: 108px;
+}
+#img_button3:focus
+{
+    background:cadetblue;
+}
+ #img_button4 img {
+    display: block;
+    height: 130px;  
+    width: 108px;
+}
+#img_button4:focus
+{
+    background:cadetblue;
 }
 
-figcaption {
-  padding: 1%;
-  font-family: 'Cherry Swash', cursive;
-  font-size: 1em;
-  font-weight: 700;
-  color: red;
-  border: none;
-  background: transparent;
-  word-wrap: normal;
-  text-align: center;
+#outputBox{
+    height: 120px;  
+    width: 400px;
 }
+
