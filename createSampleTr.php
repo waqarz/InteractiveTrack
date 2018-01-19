@@ -12,11 +12,12 @@ $imageToDisplay=$_POST['image'];
 $launchTime=$_POST['launchTime'];
 $nameToDisplay=$_POST['nameToDisplay'];
 $linkToDisplay=$_POST['linkToDisplay'];
+$sessionId=$_POST['sessionId'];
 //Find the exact sample file in the interactive track that needs to be changed.
 if($timeFromNow!=0)
 {   
-    if(file_exists("../startTime.txt"))
-        $timeInFile= file_get_contents ("../startTime.txt");
+    if(file_exists("temp/".$sessionId."/startTime.txt"))
+        $timeInFile= file_get_contents ("temp/".$sessionId."/startTime.txt");
     else
         echo "Start time file not found";     
     
@@ -26,7 +27,7 @@ if($timeFromNow!=0)
 $sampleFrequency=0.5;
 $sampleFileNum=$mediaTime/$sampleFrequency;
 
-$sampleFileTobeChanged="../InteractiveTrack/sample".(int)$sampleFileNum.".tr";
+$sampleFileTobeChanged="temp/".$sessionId."/InteractiveTrack/sample".(int)$sampleFileNum.".tr";
 if(file_exists($sampleFileTobeChanged))
 {
     $fp= fopen($sampleFileTobeChanged, "a")  or die("can't open sample file to be changed\n");

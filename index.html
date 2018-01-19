@@ -1,190 +1,139 @@
-<!DOCTYPE html> 
-  
-<html lang="en"> 
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
 
-<head> 
-   <meta charset="utf-8"> 
-   <title>Custom HTML5 Video Player</title> 
-   <link rel="stylesheet" type="text/css" href="style.css">
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>    
-   <script src="http://code.jquery.com/jquery-latest.js"></script>
-</head> 
+    <script>
+        var imgToDisplay="";
+        var nameToDisplay="";
+        var linktoDisplay="";
+        var sessionId="";
+        window.onload=function(){
+            
+            sessionId="id"+Math.floor((Math.random() * 10000000000) + 1);
+            $.post(
+                     "createSession.php",
+                    {sessionId:sessionId}
+                    ).done(function(response){
+                        console.log(response);
+                        //document.getElementById("streamURL").href="http://localhost/InteractiveTrack/temp/"+sessionId+"/";
+                        document.getElementById("streamURL").innerHTML="http://localhost/InteractiveTrack/temp/"+sessionId+"/";
+                 });
+            
+            document.getElementById("MediaTimeDiv").style.display="none";
+            document.getElementById("TimeFromNowDiv").style.display="none";
+          
+        }
+        function LaunchFunction() {
+            var launchTime = new Date().getTime() / 1000; // The time in sec since 1 Jan 1970.
+            var timeFromNowMin=document.getElementById("TimeFromNowMin").value;
+            var timeFromNowSec=document.getElementById("TimeFromNowSec").value;
+            var mediaTimeMin=document.getElementById("MediaTimeMin").value;
+            var mediaTimeSec=document.getElementById("MediaTimeSec").value;
+            var timeFromNow=timeFromNowMin*60+timeFromNowSec;
+            var mediaTime=mediaTimeMin*60+mediaTimeSec;
+            
+            $.post(
+                     "createSampleTr.php",
+                     {timeFromNow: timeFromNow,mediaTime:mediaTime,image:imgToDisplay, launchTime:launchTime ,
+                         nameToDisplay:nameToDisplay, linkToDisplay:linkToDisplay,sessionId:sessionId}
+                    ).done(function(response){
+                        console.log(response);
+                        console.log("Created Sample Tr");
+                        document.getElementById("outputBox").style.display="block";
+                        document.getElementById("outputBox").value="Code inserted into"+response; 
+                    
+                 });
+                
+            
+        }
+        function clickImg1(){
+            var source=document.getElementById("img1").src;
+            imgToDisplay=source;
+            nameToDisplay="Ton Roosendal (Production)";
+            linkToDisplay="http://www.imdb.com/name/nm2278225/";
+        }
+        function clickImg2(){
+            var source=document.getElementById("img2").src;
+            imgToDisplay=source;
+            nameToDisplay="Ian Hubert (Direction)";
+             linkToDisplay="http://www.imdb.com/name/nm1937843/?ref_=fn_al_nm_1";
+        }
+        function clickImg3(){
+            var source=document.getElementById("img3").src;
+            imgToDisplay=source;
+            nameToDisplay="Joris Kerbosch (Cinematography)";
+             linkToDisplay="http://www.imdb.com/name/nm1514878/?ref_=fn_al_nm_1";
+        }
+        function clickImg4(){
+            var source=document.getElementById("img4").src;
+            imgToDisplay=source;
+            nameToDisplay="Houdijn Beekhuis (Casting)";
+             linkToDisplay="http://www.imdb.com/name/nm4591432/?ref_=fn_al_nm_1";
+        }
+        function handleRadioTimeNow(){
+            document.getElementById("TimeFromNowDiv").style.display="inline-block";
 
-<body>
+        }
+        function handleRadioMedia(){
+            document.getElementById("MediaTimeDiv").style.display="inline-block";
 
-<p>Start playback.</p>
-
-<button onclick="myFunction()">Click to play</button>
-
-<p id="demo"></p>
-
-
-<div>
-    <input type="checkbox" id="interactivity" value="yes"> Enable interactivity<br>
-</div>
-
-
-
-</body>
-
-<script>
-
-var mainTimerHandle = "";
-var ticksPerSecond = 10;    //Define timer resolution
-var vid;
-document.getElementById("interactivity").checked = true;
-
-window.onload = function()
-    {	
-        initializeSamples();
-    }
+        }
+        function PlayerNewTab(){
+            window.open("http://localhost/InteractiveTrack/temp/"+sessionId+"/index.html");
+        }
+    </script>
+  </head>
+  <body>
+    <div>
+        Stream URL: <a href="#" onclick="PlayerNewTab();" id="streamURL"></a>
+    </div>
+    <h2>Select Profile to Insert in Track</h2>
     
-function myFunction() {
-    document.getElementById("demo").innerHTML = "Started";
-    var startTime = new Date().getTime() / 1000; // The time in sec since 1 Jan 1970.
-    $.post(
-            "writeStartTime.php",
-            {startTime: startTime }
-            ).done(function(response){
-            console.log(response);
-        });
+    <div id="Div1">
+        <div id="radioDiv1">
+            <input type="radio" id="radioTimeNow" onclick="handleRadioTimeNow();"> Time from Now
+        </div>
+        <div id="TimeFromNowDiv">
+        : min
+        <input type="number" id="TimeFromNowMin" min="0" value="0"> : sec
+        <input type="number" id="TimeFromNowSec" min="0" max="60" value="0">
+        </div>
+    </div>
     
-    setTimeout(loadMainBody, 0); // Lo
+    <div id="Div2">
+        <div id="radioDiv2">
+            <input type="radio" id="radioMedia" onclick="handleRadioMedia();"> Media Time 
+        </div>
+        <div id="MediaTimeDiv">
+        : min
+        <input type="number" id="MediaTimeMin" min="0" value="0"> : sec
+        <input type="number" id="MediaTimeSec" min="0" max="60" value="0">
+        </div>
+    </div>
     
-    if(document.getElementById("interactivity").checked)
-        setTimeout(initializeVideo, 10);
-    //mainTimerHandle = setInterval(mainTimer, 1000/ticksPerSecond);    
-}
-
-var mainIterationCount = 0;
-var scriptAdded = new Boolean(false);
-
-var sampleDecodeTimes  = [0, 0.5, 1];    //Decode times, less than the expected presentation times: check how loading the movie from remote server/buffering may impact this. The other decode times are read during the run-time.
-var currentSample = 0;
-var accumulatedTime = 1;
-var video_previous_playback_time = -1;
-var rightImageIncoming=0;
-
-function initializeVideo() {
-  vid = document.getElementById("video");
-  console.log(vid);
-  vid.ontimeupdate = function () { 
-	  mainTimer(((vid.currentTime)));
-	  emulateReceiveAndStoreFunction(); 
-	  emulateReceiveAndStoreLeftThumbnail(); 
-	  addRemoveRightThumbnail();
-	  removeRightImage();//To remove right side image by broadcaster after a certain time of display.
-    };
-  
-  vid.onended=function(){
-          initializeSamples();
-  }
-}
-
-function mainTimer(currentPlaybackTime) {
-  console.log(currentPlaybackTime)
-  currentPlaybackTime = Math.round(currentPlaybackTime);
-  //console.log("Current playback time =" + currentPlaybackTime);
-  //console.log("Video previous playback time =" + video_previous_playback_time);
-  //console.log("Sample decode time =" + sampleDecodeTimes[currentSample]);
-  if ((video_previous_playback_time != currentPlaybackTime) && (currentSample < 65)){
-    //console.log("** Current sample is " + currentSample);
-    if ( (currentPlaybackTime == sampleDecodeTimes[currentSample]) || ((currentPlaybackTime - 0.5) == sampleDecodeTimes[currentSample]) || ((currentPlaybackTime + 0.5) == sampleDecodeTimes[currentSample]) )  //Assuming timer is accurate (defined by ticksPerSecond)
-      {
-	  console.log("*********Playbacktime: " + currentPlaybackTime + ", loading: " + "InteractiveTrack/sample" + (currentSample) + ".tr");
-	  setTimeout(function(){loadScript("InteractiveTrack/sample" + (currentSample) + ".tr", 0);}, 0);
-	  currentPlaybackTime = sampleDecodeTimes[currentSample];
-	  //Load a sample	  
-	  currentSample = currentSample + 1;  //Iterate over samples
-      }
-    video_previous_playback_time = currentPlaybackTime;
-  }    
-}
-
-function loadMainBody()
-{
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {      
-        var nodeContents = this.responseText;
-        document.getElementsByTagName('body')[0].innerHTML = nodeContents;
-        loadScript("InteractiveTrack/main.tr", 1);
-    }
-  };
-  xhttp.open("GET", "InteractiveTrack/body.xml", true);
-  xhttp.send();
-}
-
-function loadScript(scriptName, isSampleZero)
-{
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        //console.log("** Script name is " + scriptName);
-      
-	if(isSampleZero){
-	  var scriptContents = this.responseText;
-	  var theScript = document.createElement('script');
-	  theScript.appendChild(document.createTextNode(scriptContents));
-	  document.getElementsByTagName('head')[0].appendChild(theScript);
-	  scriptAdded = true;
-	}
-	else{
-	  var scriptContentsWithTime = this.responseText;
-	  var scriptContents;
-	  var components = scriptContentsWithTime.split('\n');
-	  time = components.shift();
-	  accumulatedTime = Math.round((accumulatedTime + Number(time))*10)/10;
-	  sampleDecodeTimes.push(accumulatedTime);
-	  console.log(sampleDecodeTimes);
-	  
-	  scriptContents = components.join('\n');    
-	  var theScript = document.createElement('script');	  
-	  theScript.appendChild(document.createTextNode(scriptContents));
-	  document.getElementsByTagName('head')[0].appendChild(theScript);
-	  scriptAdded = true;
-	}        
-    }
-  };
-  xhttp.open("GET", scriptName, true);
-  xhttp.send();
-}
-
-function loadXMLDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML =
-      this.responseText;
-    }
-  };
-  xhttp.open("GET", "xmlhttp_info.txt", true);
-  xhttp.send();
-}
-
-function removeRightImage(){
-    if(rightImageIncoming)
-    {
-        
-        setTimeout(function(){
-            document.getElementById("img_4").src = "" ;
-            document.getElementById("links_4").href = "";
-            document.getElementById("links_text_4").innerHTML = "";
-        },3000) // Time out for 4s.
-        
-        rightImageIncoming=0;
-    }
+    <div>
+    <button id="name_button1" >Ton Roosendal (Production)</button>
+    <button id="name_button2" >Ian Hubert (Direction)</button>
+    <button id="name_button3" >Joris Kerbosch (Cinematography)</button>
+    <button id="name_button4" >Houdijn Beekhuis (Casting)</button>
+    </div>
+    <div>
+    <button id="img_button1" onclick="clickImg1()"><img src="image1.jpg" id="img1"> </button>
+    <button id="img_button2" onclick="clickImg2()"><img src="image2.jpg" id="img2"></button>
+    <button id="img_button3" onclick="clickImg3()"><img src="image3.jpg" id="img3"></button>
+    <button id="img_button4" onclick="clickImg4()"><img src="image4.jpg" id="img4"></button>
+    </div>
+     
+    <button onclick="LaunchFunction()" id="LaunchButton">Insert</button>
+    <div>
+        <textarea id="outputBox" rows="5" cols="100" style="display: none"></textarea>
+    </div>
     
-}
-function initializeSamples(){
-    $.post(
-            "ReinitializeSamples.php",
-            ).done(function(response){
-            console.log(response);
-        });
-}
-</script>
-
-
+  </body>
 </html>

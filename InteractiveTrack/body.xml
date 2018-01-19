@@ -5,7 +5,7 @@
       
     <div id="video_container_end"> 
 	<video id="video" controls autoplay> 
-	  <source ="video_source" src="Video/ToS_4Mbps.mp4" type="video/mp4">              
+	  <source ="video_source" src="../../Video/ToS_4Mbps.mp4" type="video/mp4">              
         </video> 
     </div>    
     <!-- Left image thumbnail with  actors image and actors info from imdb link  -->
@@ -43,5 +43,10 @@
     </div>    
     
     </div>    
+    <!--  Web Interactivity enabling/disabling checkbox option for the receiver application    -->
+    <div id="interactive">
+        <input type="checkbox" id="interactivity">
+        <label for="interactivity">Enable web interactivity</label>
+    </div>
 
 </div> 
